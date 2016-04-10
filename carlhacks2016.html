@@ -3,9 +3,16 @@
     <div class="contactlist">
         <div class="contactlist-header">
             <div class="contactlist-header-title">Messages</div>
-            <div class="contactlist-header-icon">
+            <div class="contactlist-header-icon new-conversation">
                 <img src="./create.png" alt="">
             </div>
+            {{#if isNew}}
+                <div class="contact currentselected">
+                    <div class="contact-left">
+                        <div class="name">New message</div>
+                    </div>
+                </div>
+            {{/if}}
             {{#each person in messageList}}
             <div class="contact {{#if currentselected person}} currentselected {{/if}}">
                 <div class="contact-left">
@@ -20,7 +27,13 @@
     </div>
     <div class="right">
         <div class="messages-header">
-            {{currentPerson}}
+            {{#if isNew }}
+                To: <input type="text" class="new-conversation-input" placeholder="Type a phone number">
+            {{else}}
+                <div class="messages-header-current">
+                    {{currentPerson}}
+                </div>
+            {{/if}}
         </div>
         <div class="messages">
             {{#each msg in messages}}

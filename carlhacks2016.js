@@ -32,6 +32,12 @@ if (Meteor.isClient) {
       console.log("sending message");
       var userNumber = OURNUMBER;
       var toNumber = Session.get("viewing");
+      if (toNumber === null) {
+        toNumber = $('.new-conversation-input').val();
+        // TODO: SANITIZE NUMBER!!
+        Session.set('viewing', toNumber);
+      }
+
       var text = $(".textinput").val();
       console.log("Sending", userNumber, toNumber, text);
       Meteor.call("sendMessage", userNumber, toNumber, text);
@@ -43,6 +49,9 @@ if (Meteor.isClient) {
       console.log(Session.get("viewing"));
       Session.set('viewing', $.trim(e.currentTarget.innerText));
       console.log(Session.get("viewing"));
+    },
+    'click .new-conversation': function(e) {
+      Session.set('viewing', null);
     }
   });
 
@@ -76,6 +85,9 @@ if (Meteor.isClient) {
     },
     'currentselected': function(number) {
       return Session.get("viewing") == number;
+    },
+    'isNew': function() {
+      return Session.get('viewing') === null;
     }
   });
 
