@@ -60,7 +60,12 @@ if (Meteor.isClient) {
       var unique = _.uniq(_.uniq(messages.find({}, {
           sort: {ts: -1}, fields: {from: true, to: true}
       }).fetch().map(function(x) {
-          return x.from;
+          if (x.from != OURNUMBER){
+            return x.from;  
+          } else {
+            return x.to;
+          }
+          
       }), true));
 
       console.log(unique);
