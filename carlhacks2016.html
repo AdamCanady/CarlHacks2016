@@ -6,23 +6,24 @@
             <div class="contactlist-header-icon new-conversation">
                 <img src="./create.png" alt="">
             </div>
-            {{#if isNew}}
-                <div class="contact currentselected">
-                    <div class="contact-left">
-                        <div class="name">New message</div>
-                    </div>
-                </div>
-            {{/if}}
-            {{#each person in messageList}}
-            <div class="contact {{#if currentselected person}} currentselected {{/if}}">
-                <div class="contact-left">
-                    <div class="name">{{person}}</div>
-                    <!-- <div class="last-message">Haha but what about airbnb for cats though</div> -->
-                </div>
-                <!-- <div class="timestamp">3:53pm</div> -->
-            </div>
-            {{/each}}
         </div>
+
+        {{#if isNew}}
+            <div class="contact currentselected">
+                <div class="contact-left">
+                    <div class="name">New message</div>
+                </div>
+            </div>
+        {{/if}}
+        {{#each person in messageList}}
+        <div class="contact {{#if currentselected person}} currentselected {{/if}}">
+            <div class="contact-left">
+                <div class="name">{{person}}</div>
+                <div class="last-message">{{ latestMessage person }}</div>
+            </div>
+            <div class="timestamp">{{ latestTimestamp person }}</div>
+        </div>
+        {{/each}}
         
     </div>
     <div class="right">

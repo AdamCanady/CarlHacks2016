@@ -58,7 +58,7 @@ if (Meteor.isClient) {
       // console.log(e);
       // console.log(e.data);
       console.log(Session.get("viewing"));
-      Session.set('viewing', $.trim(e.currentTarget.innerText));
+      Session.set('viewing', $.trim($(e.currentTarget).find('.name').text()));
       console.log(Session.get("viewing"));
     },
     'click .new-conversation': function(e) {
@@ -104,6 +104,32 @@ if (Meteor.isClient) {
     },
     'isNew': function() {
       return Session.get('viewing') === null;
+    },
+    'latestMessage': function(number) {
+      var text = messages.find({
+        '$or': [
+          { from: number },
+          { to: number }
+        ]
+      }, {
+        sort: {created: -1},
+        limit: 1
+      }).fetch()[0].text;
+      return text;
+    },
+    'latestTimestamp': function(number) {
+      var created = messages.find({
+        '$or': [
+          { from: number },
+          { to: number }
+        ]
+      }, {
+        sort: {created: -1},
+        limit: 1
+      }).fetch()[0].created;
+      dateString = (created.getMonth() + 1) + '/' + created.getDate() + '/' + created.getFullYear() + ' ';
+      dateString += created.getHours() + ':' + created.getMinutes();
+      return dateString;
     }
   });
 
@@ -140,7 +166,7 @@ if (Meteor.isServer) {
                     from: userNumber,
                     to: toNumber,
                     text: text,
-                    ts: new Date()
+                    created: new Date()
                   });
                   console.log("message inserted");
                 }
@@ -163,7 +189,8 @@ if (Meteor.isServer) {
       messages.insert({
         'to': toIn,
         'from': fromIn,
-        'text': messageText
+        'text': messageText,
+        created: new Date()
       });
 
       // var xml = '<Response><Sms>Thank you for submitting your question!</Sms></Response>';
