@@ -7,7 +7,7 @@
                 <img src="./create.png" alt="">
             </div>
             {{#each person in messageList}}
-            <div class="contact">
+            <div class="contact {{#if currentselected person}} currentselected {{/if}}">
                 <div class="contact-left">
                     <div class="name">{{person}}</div>
                     <!-- <div class="last-message">Haha but what about airbnb for cats though</div> -->
@@ -21,7 +21,7 @@
     <div class="right">
         <div class="messages">
             {{#each msg in messages}}
-                <div class="message {{#if fromme msg}}fromme{{else}}fromyou{{/if}}">
+                <div class="message {{#if fromme msg.from}}fromme{{else}}fromyou{{/if}}">
                     {{msg.text}}
                 </div>
             {{/each}}

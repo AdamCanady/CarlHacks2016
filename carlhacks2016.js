@@ -33,16 +33,13 @@ if (Meteor.isClient) {
       console.log("Sending", userNumber, toNumber, text);
       Meteor.call("sendMessage", userNumber, toNumber, text);
       $(".textinput").val("");
-      messages.insert({
-        from: userNumber,
-        to: toNumber,
-        text: text,
-      });
     },
     'click .contact': function(e) {
-      console.log(e);
-      console.log(e.data);
-      // Session.set('viewing', e.data.from);
+      // console.log(e);
+      // console.log(e.data);
+      console.log(Session.get("viewing"));
+      Session.set('viewing', $.trim(e.currentTarget.innerText));
+      console.log(Session.get("viewing"));
     }
   });
 
@@ -57,15 +54,23 @@ if (Meteor.isClient) {
       return unique;
     },
     'messages': function(){
-      var msgs = messages.find({
-        from: Session.get("viewing"),
-        to: "+16502002007"
+      var msgs = messages.find({ "$or": [
+      {from: Session.get("viewing"),
+        to: "+16502002007"},
+        {to: Session.get("viewing"),
+          from: "+16502002007"}
+        ]
+      
+        
       });
       // console.log(msgs);
       return msgs;
     },
     'fromme': function(number){
       return number == "+16502002007";
+    },
+    'currentselected': function(number) {
+      return Session.get("viewing") == number;
     }
   });
 
@@ -78,12 +83,12 @@ if (Meteor.isServer) {
   });
   Meteor.startup(function () {
     Meteor.methods({
-            sendMessage: function(usernumber, tonumber, text) {
+            sendMessage: function(userNumber, toNumber, text) {
               twilio.sendSms({
-                to:tonumber, // Any number Twilio can deliver to
-                from: usernumber, // A number you bought from Twilio and can use for outbound communication
+                to:toNumber, // Any number Twilio can deliver to
+                from: userNumber, // A number you bought from Twilio and can use for outbound communication
                 body: text // body of the SMS message
-              }, function(err, responseData) { //this function is executed when a response is received from Twilio
+              }, Meteor.bindEnvironment(function(err, responseData) { //this function is executed when a response is received from Twilio
                 if (!err) { // "err" is an error received during the request, if any
                   // "responseData" is a JavaScript object containing data received from Twilio.
                   // A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
@@ -91,8 +96,16 @@ if (Meteor.isServer) {
                   console.log(responseData.from); // outputs "+14506667788"
                   console.log(responseData.body); // outputs "word to your mother."
                   
+                  // message inserted
+                  messages.insert({
+                    from: userNumber,
+                    to: toNumber,
+                    text: text,
+                  });
+                  console.log("message inserted");
                 }
-              });
+
+              }));
             },
         });
   });
