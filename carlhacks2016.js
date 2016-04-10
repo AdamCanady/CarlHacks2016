@@ -1,4 +1,5 @@
 var messages = new Mongo.Collection("messages");
+var twilioRawIn = new Mongo.Collection("twilio");
 
 Router.route('/', {
   template: 'home'
@@ -94,7 +95,7 @@ if (Meteor.isServer) {
 
       // var xml = '<Response><Sms>Thank you for submitting your question!</Sms></Response>';
       var xml = '<Response></Response>';
-      return [200, {"Content-Type": "text/xml"}, xml];
+      return [200];
   });
 }
 
