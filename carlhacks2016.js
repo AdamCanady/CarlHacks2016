@@ -1,6 +1,8 @@
 var messages = new Mongo.Collection("messages");
 var twilioRawIn = new Mongo.Collection("twilio");
 
+var OURNUMBER = "+16502002007";
+
 Router.route('/', {
   template: 'home'
 });
@@ -28,7 +30,7 @@ if (Meteor.isClient) {
     'submit form': function(e){
       e.preventDefault();
       console.log("sending message");
-      var userNumber = "+16502002007";
+      var userNumber = OURNUMBER;
       var toNumber = Session.get("viewing");
       var text = $(".textinput").val();
       console.log("Sending", userNumber, toNumber, text);
@@ -51,24 +53,23 @@ if (Meteor.isClient) {
       }).fetch().map(function(x) {
           return x.from;
       }), true));
+
       console.log(unique);
-      return unique;
+      return _.without(unique,OURNUMBER);
     },
     'messages': function(){
       var msgs = messages.find({ "$or": [
       {from: Session.get("viewing"),
-        to: "+16502002007"},
+        to: OURNUMBER},
         {to: Session.get("viewing"),
-          from: "+16502002007"}
+          from: OURNUMBER}
         ]
-      
-        
       });
       // console.log(msgs);
       return msgs;
     },
     'fromme': function(number){
-      return number == "+16502002007";
+      return number == OURNUMBER;
     },
     'currentselected': function(number) {
       return Session.get("viewing") == number;
