@@ -46,12 +46,12 @@ if (Meteor.isClient) {
 
   Template.home.helpers({
     'messageList': function() {
-      var unique = _.uniq(messages.find({}, {
+      var unique = _.uniq(_.uniq(messages.find({}, {
           sort: {ts: -1}, fields: {from: true}
       }).fetch().map(function(x) {
           return x.from;
-      }), true);
-      // console.log(unique);
+      }), true));
+      console.log(unique);
       return unique;
     },
     'messages': function(){
