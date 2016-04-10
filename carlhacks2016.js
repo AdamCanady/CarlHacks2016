@@ -1,5 +1,8 @@
 var messages = new Mongo.Collection("messages");
 
+Router.route('/', {
+  template: 'home'
+});
 
 if (Meteor.isClient) {
   // counter starts at 0
@@ -42,6 +45,7 @@ if (Meteor.isClient) {
       });
     }
   });
+
 }
 
 var twilio = Twilio("AC353b28678df395e68b4e48c9fbf374f3", "cecdb6b1b9fc2e953347a4e53609fb62");
@@ -70,10 +74,6 @@ if (Meteor.isServer) {
               });
             },
         });
-  });
-
-  Router.route('/', function (req, res) {
-    res.render('home');
   });
 
   Router.route('/api/twiml/sms', {where: 'server'}).post(function() {
