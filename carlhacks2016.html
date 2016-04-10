@@ -1,5 +1,4 @@
 <template name="home">
-{{> loginButtons}}
 <div class="container">
     <div class="contactlist">
         <div class="contactlist-header">
@@ -29,7 +28,9 @@
         </div>
     </div>
     <div class="response">
-        <input type="text" class="textinput" placeholder="Type a message...">
+        <form class="send">
+            <input type="text" class="textinput" placeholder="Type a message...">
+        </form>
     </div>  
 </div>
 </template>

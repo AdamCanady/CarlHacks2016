@@ -24,11 +24,25 @@ if (Meteor.isClient) {
   // });
 
   Template.home.events({
-    'input submit': function(){
-      Meteor.call("sendMessage", 'testnumber','abc');
+    'submit form': function(e){
+      e.preventDefault();
+      console.log("sending message");
+      var userNumber = "+16502002007";
+      var toNumber = Session.get("viewing");
+      var text = $(".textinput").val();
+      console.log("Sending", userNumber, toNumber, text);
+      Meteor.call("sendMessage", userNumber, toNumber, text);
+      $(".textinput").val("");
+      messages.insert({
+        from: userNumber,
+        to: toNumber,
+        text: text,
+      });
     },
-    '.contact click': function(e) {
-      Session.set('viewing', this.from);
+    'click .contact': function(e) {
+      console.log(e);
+      console.log(e.data);
+      // Session.set('viewing', e.data.from);
     }
   });
 
@@ -39,19 +53,19 @@ if (Meteor.isClient) {
       }).fetch().map(function(x) {
           return x.from;
       }), true);
-      console.log(unique);
+      // console.log(unique);
       return unique;
     },
     'messages': function(){
       var msgs = messages.find({
         from: Session.get("viewing"),
-        to: Meteor.user().profile.number
+        to: "+16502002007"
       });
-      console.log(msgs);
+      // console.log(msgs);
       return msgs;
     },
     'fromme': function(number){
-      return number == Meteor.user().profile.number;
+      return number == "+16502002007";
     }
   });
 
@@ -64,7 +78,6 @@ if (Meteor.isServer) {
   });
   Meteor.startup(function () {
     Meteor.methods({
-
             sendMessage: function(usernumber, tonumber, text) {
               twilio.sendSms({
                 to:tonumber, // Any number Twilio can deliver to
@@ -77,6 +90,7 @@ if (Meteor.isServer) {
                   // http://www.twilio.com/docs/api/rest/sending-sms#example-1
                   console.log(responseData.from); // outputs "+14506667788"
                   console.log(responseData.body); // outputs "word to your mother."
+                  
                 }
               });
             },
