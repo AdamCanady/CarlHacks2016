@@ -1,4 +1,5 @@
 <template name="home">
+{{> loginButtons}}
 <div class="container">
     <div class="contactlist">
         <div class="contactlist-header">
@@ -6,57 +7,62 @@
             <div class="contactlist-header-icon">
                 <img src="./create.png" alt="">
             </div>
+            {{#each person in messageList}}
+            <div class="contact">
+                <div class="contact-left">
+                    <div class="name">{{person}}</div>
+                    <!-- <div class="last-message">Haha but what about airbnb for cats though</div> -->
+                </div>
+                <!-- <div class="timestamp">3:53pm</div> -->
+            </div>
+            {{/each}}
+            <!-- <div class="contact">
+                <div class="contact-left">
+                    <div class="name">5038869259</div>
+                    <div class="last-message">Nm you?</div>
+                </div>
+                <div class="timestamp">3:53pm</div>
+            </div>
+            <div class="contact">
+                <div class="contact-left">
+                    <div class="name">5038869259</div>
+                    <div class="last-message">yo come to the rec this hackathon is lit</div>
+                </div>
+                <div class="timestamp">3:53pm</div>
+            </div> -->
         </div>
-        <div class="contact">
-            <div class="contact-left">
-                <div class="name">5038869259</div>
-                <div class="last-message">Haha but what about airbnb for cats though</div>
-            </div>
-            <div class="timestamp">3:53pm</div>
-        </div>
-        <div class="contact">
-            <div class="contact-left">
-                <div class="name">5038869259</div>
-                <div class="last-message">Nm you?</div>
-            </div>
-            <div class="timestamp">3:53pm</div>
-        </div>
-        <div class="contact">
-            <div class="contact-left">
-                <div class="name">5038869259</div>
-                <div class="last-message">yo come to the rec this hackathon is lit</div>
-            </div>
-            <div class="timestamp">3:53pm</div>
-        </div>
-    </div>
-    <div class="right">
-        <div class="messages">
-            <div class="message fromme">
-                hello
-            </div>
-            <div class="message fromyou">
-                what's up
-            </div>
-            <div class="message fromyou">
-                what's up
-            </div>
-            <div class="message fromme">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam nisi harum provident tenetur itaque vitae quod magnam, voluptatibus fugit molestiae suscipit saepe, vero eius voluptate autem placeat aliquid nihil consequuntur.
-            </div>
-            <div class="message fromyou">
-                what's up
-            </div>
-            <div class="message fromyou">
-                what's up
-            </div>
-            <div class="message fromme">
-                hello
-            </div>
-            <div class="message fromyou">
-                what's up
-            </div>
-            <div class="message fromyou">
-                what's up
+        <div class="right">
+            <div class="messages">
+                {{#each msg in messages}}
+                    <div class="message {{#if fromme msg}}fromme{{else}}fromyou{{/if}}">
+                        hello
+                    </div>
+                {{/each}}
+                
+                <!-- <div class="message fromyou">
+                    what's up
+                </div>
+                <div class="message fromyou">
+                    what's up
+                </div>
+                <div class="message fromme">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam nisi harum provident tenetur itaque vitae quod magnam, voluptatibus fugit molestiae suscipit saepe, vero eius voluptate autem placeat aliquid nihil consequuntur.
+                </div>
+                <div class="message fromyou">
+                    what's up
+                </div>
+                <div class="message fromyou">
+                    what's up
+                </div>
+                <div class="message fromme">
+                    hello
+                </div>
+                <div class="message fromyou">
+                    what's up
+                </div>
+                <div class="message fromyou">
+                    what's up
+                </div> -->
             </div>
         </div>
         <div class="response">

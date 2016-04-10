@@ -5,24 +5,28 @@ Router.route('/', {
   template: 'home'
 });
 
+
+var twilio = Twilio("AC1c3377000a5ea017e093307f6cf3ff9a", "be8a76e896f0606e071f11e723ee45e5");
+
+
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+  // Template.hello.helpers({
+  //   counter: function () {
+  //     return Session.get('counter');
+  //   }
+  // });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
+  // Template.hello.events({
+  //   'click button': function () {
+  //     // increment the counter when button is clicked
+  //     Session.set('counter', Session.get('counter') + 1);
+  //   }
+  // });
 
-  Template.messages.events({
+  Template.home.events({
     'input submit': function(){
       Meteor.call("sendMessage", 'testnumber','abc');
     },
@@ -31,7 +35,7 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.messages.helpers({
+  Template.home.helpers({
     'messageList': function() {
       return _.uniq(messages.find({}, {
           sort: {ts: -1}, fields: {from: true}
@@ -44,13 +48,13 @@ if (Meteor.isClient) {
         from: Session.get("viewing"),
         to: Meteor.user().profile.number
       });
+    },
+    'fromme': function(number){
+      return number == Meteor.user().profile.number;
     }
   });
 
 }
-
-var twilio = Twilio("AC1c3377000a5ea017e093307f6cf3ff9a", "be8a76e896f0606e071f11e723ee45e5");
-
 
 if (Meteor.isServer) {
   Router.configure({
