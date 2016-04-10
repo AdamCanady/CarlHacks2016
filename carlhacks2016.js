@@ -1,3 +1,6 @@
+var messages = new Mongo.Collection("messages");
+
+
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
@@ -14,20 +17,29 @@ if (Meteor.isClient) {
       Session.set('counter', Session.get('counter') + 1);
     }
   });
+
+  Template.messages.events({
+    'input submit': function(){
+      Meteor.call("sendMessage", 'testnumber','abc');
+    }
+  });
 }
 
-twilio = Twilio("AC353b28678df395e68b4e48c9fbf374f3", "cecdb6b1b9fc2e953347a4e53609fb62");
+var twilio = Twilio("AC353b28678df395e68b4e48c9fbf374f3", "cecdb6b1b9fc2e953347a4e53609fb62");
 
 
 if (Meteor.isServer) {
+  Router.configure({
+      // options go here
+  });
   Meteor.startup(function () {
     Meteor.methods({
 
-            sendMessage: function(text,number) {
+            sendMessage: function(usernumber, tonumber, text) {
               twilio.sendSms({
-                to:'+16515556677', // Any number Twilio can deliver to
-                from: '+14506667788', // A number you bought from Twilio and can use for outbound communication
-                body: 'word to your mother.' // body of the SMS message
+                to:tonumber, // Any number Twilio can deliver to
+                from: usernumber, // A number you bought from Twilio and can use for outbound communication
+                body: text // body of the SMS message
               }, function(err, responseData) { //this function is executed when a response is received from Twilio
                 if (!err) { // "err" is an error received during the request, if any
                   // "responseData" is a JavaScript object containing data received from Twilio.
@@ -37,7 +49,7 @@ if (Meteor.isServer) {
                   console.log(responseData.body); // outputs "word to your mother."
                 }
               });
-            }
+            },
 
             foo: function () {
                 return 1;
@@ -51,4 +63,26 @@ if (Meteor.isServer) {
             }
         });
   });
+
+  Router.route('/api/twiml/sms', {where: 'server'}).post(function() {
+      var rawIn = this.request.body;
+      if (Object.prototype.toString.call(rawIn) == "[object Object]") {
+          twilioRawIn.insert(rawIn);
+      }
+
+      var messageText = rawIn.Body;
+      var toIn = rawIn.To;
+      var fromIn = rawIn.From;
+
+      messages.insert({
+        'to': toIn,
+        'from': fromIn,
+        'text': messageText
+      });
+
+      // var xml = '<Response><Sms>Thank you for submitting your question!</Sms></Response>';
+      var xml = '<Response></Response>';
+      return [200, {"Content-Type": "text/xml"}, xml];
+  });
 }
+
