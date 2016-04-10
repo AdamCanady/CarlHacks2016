@@ -75,6 +75,10 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.home.onRendered(function() {
+    $('.textinput').focus();
+  });
+
 }
 
 /////////////////// SERVER ///////////////////////////////////////////////////////////////////
