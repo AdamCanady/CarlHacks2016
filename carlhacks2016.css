@@ -30,6 +30,8 @@ input:focus {
     border-bottom: 1px solid lightgrey;
     position: relative;
     cursor: pointer;
+    height: 78px;
+    box-sizing: border-box;
 }
 
 .contact:hover {
@@ -45,6 +47,9 @@ input:focus {
 }
 .contact .name {
     font-size: 16px;
+}
+.contact .center-name {
+    line-height: 40px;
 }
 .contact .last-message {
     color: grey;

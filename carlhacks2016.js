@@ -63,6 +63,7 @@ if (Meteor.isClient) {
     },
     'click .new-conversation': function(e) {
       Session.set('viewing', null);
+      $('.new-conversation-input').focus();
     }
   });
 
