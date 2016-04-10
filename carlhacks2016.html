@@ -19,6 +19,9 @@
         
     </div>
     <div class="right">
+        <div class="messages-header">
+            {{currentPerson}}
+        </div>
         <div class="messages">
             {{#each msg in messages}}
                 <div class="message {{#if fromme msg.from}}fromme{{else}}fromyou{{/if}}">

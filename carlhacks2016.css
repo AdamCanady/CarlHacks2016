@@ -21,6 +21,7 @@ body {
     padding: 20px;
     border-bottom: 1px solid lightgrey;
     position: relative;
+    cursor: pointer;
 }
 
 .contact:hover {
@@ -58,7 +59,7 @@ body {
     width:30%;
     height:100%;
     background-color: #f6f6f6;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ccc;
     margin: 0;
     overflow-y: scroll;
 }
@@ -71,7 +72,7 @@ body {
     font-weight: bold;
     line-height: 50px;
     height: 50px;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid lightgrey;
 }
 .contactlist-header-icon {
     line-height: 50px;
@@ -98,6 +99,14 @@ body {
     box-sizing: border-box;
     overflow-y: scroll;
     height: calc(100% - 60px);
+}
+
+.messages-header {
+    height: 50px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 50px;
+    border-bottom: 1px solid lightgrey;
 }
 
 /*            .row {

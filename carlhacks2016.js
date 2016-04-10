@@ -71,6 +71,9 @@ if (Meteor.isClient) {
     'fromme': function(number){
       return number == OURNUMBER;
     },
+    'currentPerson': function() {
+      return Session.get('viewing');
+    },
     'currentselected': function(number) {
       return Session.get("viewing") == number;
     }
