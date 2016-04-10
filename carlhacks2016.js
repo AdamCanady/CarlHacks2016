@@ -48,7 +48,7 @@ if (Meteor.isClient) {
 
 }
 
-var twilio = Twilio("AC353b28678df395e68b4e48c9fbf374f3", "cecdb6b1b9fc2e953347a4e53609fb62");
+var twilio = Twilio("AC1c3377000a5ea017e093307f6cf3ff9a", "be8a76e896f0606e071f11e723ee45e5");
 
 
 if (Meteor.isServer) {
