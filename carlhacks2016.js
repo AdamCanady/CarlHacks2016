@@ -6,12 +6,9 @@ Router.route('/', {
 });
 
 
-var twilio = Twilio("AC1c3377000a5ea017e093307f6cf3ff9a", "be8a76e896f0606e071f11e723ee45e5");
-
-
 if (Meteor.isClient) {
+  Session.setDefault("viewing","+14157696292");
   // counter starts at 0
-  Session.setDefault('counter', 0);
 
   // Template.hello.helpers({
   //   counter: function () {
@@ -37,17 +34,21 @@ if (Meteor.isClient) {
 
   Template.home.helpers({
     'messageList': function() {
-      return _.uniq(messages.find({}, {
+      var unique = _.uniq(messages.find({}, {
           sort: {ts: -1}, fields: {from: true}
       }).fetch().map(function(x) {
-          return x.myField;
+          return x.from;
       }), true);
+      console.log(unique);
+      return unique;
     },
     'messages': function(){
-      return messages.find({
+      var msgs = messages.find({
         from: Session.get("viewing"),
         to: Meteor.user().profile.number
       });
+      console.log(msgs);
+      return msgs;
     },
     'fromme': function(number){
       return number == Meteor.user().profile.number;
@@ -57,6 +58,7 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+  var twilio = Twilio("AC1c3377000a5ea017e093307f6cf3ff9a", "be8a76e896f0606e071f11e723ee45e5");
   Router.configure({
       // options go here
   });

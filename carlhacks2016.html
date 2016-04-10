@@ -16,26 +16,12 @@
                 <!-- <div class="timestamp">3:53pm</div> -->
             </div>
             {{/each}}
-            <!-- <div class="contact">
-                <div class="contact-left">
-                    <div class="name">5038869259</div>
-                    <div class="last-message">Nm you?</div>
-                </div>
-                <div class="timestamp">3:53pm</div>
-            </div>
-            <div class="contact">
-                <div class="contact-left">
-                    <div class="name">5038869259</div>
-                    <div class="last-message">yo come to the rec this hackathon is lit</div>
-                </div>
-                <div class="timestamp">3:53pm</div>
-            </div> -->
         </div>
         <div class="right">
             <div class="messages">
                 {{#each msg in messages}}
                     <div class="message {{#if fromme msg}}fromme{{else}}fromyou{{/if}}">
-                        hello
+                        {{msg.text}}
                     </div>
                 {{/each}}
                 
