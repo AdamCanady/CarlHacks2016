@@ -7,6 +7,12 @@ Router.route('/', {
   template: 'home'
 });
 
+function makePrettyNumber(number) {
+  number = number.replace(/\+1/g, "");
+  var prettyNumber = '('+number.substr(0,3)+') '+number.substr(3,3)+'-'+number.substr(6,10);
+  return prettyNumber;
+}
+
 /////////////////// CLIENT ///////////////////////////////////////////////////////////////////
 
 if (Meteor.isClient) {
@@ -35,6 +41,11 @@ if (Meteor.isClient) {
       if (toNumber === null) {
         toNumber = $('.new-conversation-input').val();
         // TODO: SANITIZE NUMBER!!
+        toNumber = toNumber.replace(/[^\d]/gi, "");
+        if(toNumber.length != 10){
+          toNumber = toNumber.substr(-10);
+        }
+        toNumber = "+1" + String(toNumber);
         Session.set('viewing', toNumber);
       }
 
@@ -129,6 +140,7 @@ if (Meteor.isServer) {
                     from: userNumber,
                     to: toNumber,
                     text: text,
+                    ts: new Date()
                   });
                   console.log("message inserted");
                 }
