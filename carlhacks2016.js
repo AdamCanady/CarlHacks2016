@@ -5,6 +5,7 @@ Router.route('/', {
   template: 'home'
 });
 
+/////////////////// CLIENT ///////////////////////////////////////////////////////////////////
 
 if (Meteor.isClient) {
   Session.setDefault("viewing","+14157696292");
@@ -75,6 +76,8 @@ if (Meteor.isClient) {
   });
 
 }
+
+/////////////////// SERVER ///////////////////////////////////////////////////////////////////
 
 if (Meteor.isServer) {
   var twilio = Twilio("AC1c3377000a5ea017e093307f6cf3ff9a", "be8a76e896f0606e071f11e723ee45e5");
