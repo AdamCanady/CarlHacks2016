@@ -72,6 +72,10 @@ if (Meteor.isServer) {
         });
   });
 
+  Router.route('/', function (req, res) {
+    res.render('home');
+  });
+
   Router.route('/api/twiml/sms', {where: 'server'}).post(function() {
       var rawIn = this.request.body;
       if (Object.prototype.toString.call(rawIn) == "[object Object]") {
