@@ -21,3 +21,5 @@ insecure                # Allow all DB writes from clients (for prototyping)
 mrt:twilio
 accolver:twilio-meteor
 iron:router
+accounts-ui
+accounts-password

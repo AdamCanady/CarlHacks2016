@@ -21,6 +21,25 @@ if (Meteor.isClient) {
   Template.messages.events({
     'input submit': function(){
       Meteor.call("sendMessage", 'testnumber','abc');
+    },
+    '.contact click': function(e) {
+      Session.set('viewing', this.from);
+    }
+  });
+
+  Template.messages.helpers({
+    'messageList': function() {
+      return _.uniq(messages.find({}, {
+          sort: {ts: -1}, fields: {from: true}
+      }).fetch().map(function(x) {
+          return x.myField;
+      }), true);
+    },
+    'messages': function(){
+      return messages.find({
+        from: Session.get("viewing"),
+        to: Meteor.user().profile.number
+      });
     }
   });
 }
@@ -50,17 +69,6 @@ if (Meteor.isServer) {
                 }
               });
             },
-
-            foo: function () {
-                return 1;
-            },
-
-            bar: function () {
-
-            // QUESTION: HOW TO CALL Meteor.methods.foo
-            return 1 + foo;        
-
-            }
         });
   });
 
